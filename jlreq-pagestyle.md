@@ -38,7 +38,8 @@ fancyhdrは，ページスタイルを簡単にカスタマイズできる便利
 \documentclass{jlreq}
 \usepackage{lastpage}
 \NewPageStyle{preport}{
-    nombre_position         = bottom-center,
+    nombre_p[jlreq-pagestyle.md](https://github.com/ITO-Naoto/LaTeX-Public/files/8121399/jlreq-pagestyle.md)
+osition         = bottom-center,
     nombre                  = \thepage/\pageref{LastPage},
 }
 \begin{document}
