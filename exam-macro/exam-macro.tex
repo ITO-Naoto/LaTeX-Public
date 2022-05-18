@@ -23,13 +23,13 @@
 
 %・問題のみ（解答分のスペースを開けない）
 \newif\if question-only-nospace
-\if question
+\if question-only-nospace
 \newcommand{\question}[2]{}
 \fi%question-only-nospace
 
 %・解答のみ
 \newif\if answer-only
-\if question
+\if answer-only
 \newcommand{\answer}[2]{}
 \newcommand{\answer-annotation}[2]{}
 \fi%answer-only
