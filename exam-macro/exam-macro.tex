@@ -7,33 +7,40 @@
 
 %マクロ定義開始
 %・問題+解答＋解答答の注釈（部分点など）を表示（解答が一行で書けないものは，枠付き箱で囲って表示する。）
-\newif\if main
-\if main
-\newcommand{\question}[2]{}
-\newcommand{\answer}[2]{}
-\newcommand{\answer-annotation}[2]{}
-\fi%main
+% \newif\if main
+% \if main
+% \newcommand{\question}[2]{}
+% \newcommand{\answer}[2]{}
+% \newcommand{\answer-annotation}[2]{}
+% \fi%main
 
-%・問題のみ（解答分のスペースを開ける）
-\newif\if question-only
-\if question-only
-\newcommand{\question}[2]{}
-\newcommand{\answer}[2]{}
-\fi%question-only
+% %・問題のみ（解答分のスペースを開ける）
+% \newif\if question-only
+% \if question-only
+% \newcommand{\question}[2]{}
+% \newcommand{\answer}[2]{}
+% \fi%question-only
 
-%・問題のみ（解答分のスペースを開けない）
-\newif\if question-only-nospace
-\if question-only-nospace
-\newcommand{\question}[2]{}
-\fi%question-only-nospace
+% %・問題のみ（解答分のスペースを開けない）
+% \newif\if question-only-nospace
+% \if question-only-nospace
+% \newcommand{\question}[2]{}
+% \fi%question-only-nospace
 
-%・解答のみ
-\newif\if answer-only
-\if answer-only
-\newcommand{\answer}[2]{}
-\newcommand{\answer-annotation}[2]{}
-\fi%answer-only
-
+% %・解答のみ
+% \newif\ifanswer-only
+% \if answer-only
+% \newcommand{\answer}[2]{}
+% \newcommand{\answer-annotation}[2]{}
+% \fi%answer-only
+\newcounter{Mode}
+\newcommand{\mode}[1]{\setcounter{Mode}{#1}}
+\newcommand{\ans}[1]{
+    \ifnum\theMode=1 
+    \definecolor{kaitouiro}{cmyk}{0, 1, 1, 0}
+    \textcolor{kaitouiro}{#1}
+    \else\fi}
+\mode{1}
 \begin{document}
 \begin{enumerate}
     \item 次の計算をせよ。
