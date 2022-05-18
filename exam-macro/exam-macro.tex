@@ -6,47 +6,39 @@
 \usepackage{xcolor}
 
 %マクロ定義開始
-%・問題+解答＋解答答の注釈（部分点など）を表示（解答が一行で書けないものは，枠付き箱で囲って表示する。）
-% \newif\if main
-% \if main
-% \newcommand{\question}[2]{}
-% \newcommand{\answer}[2]{}
-% \newcommand{\answer-annotation}[2]{}
-% \fi%main
+% 1. 問題+解答＋解答答の注釈（部分点など）を表示（解答が一行で書けないものは，枠付き箱で囲って表示する。）
+% 2. 問題のみ（解答分のスペースを開ける）
+% 3. 問題のみ（解答分のスペースを開けない）
+% 4. 解答のみ（教科書の巻末がイメージ）
 
-% %・問題のみ（解答分のスペースを開ける）
-% \newif\if question-only
-% \if question-only
-% \newcommand{\question}[2]{}
-% \newcommand{\answer}[2]{}
-% \fi%question-only
-
-% %・問題のみ（解答分のスペースを開けない）
-% \newif\if question-only-nospace
-% \if question-only-nospace
-% \newcommand{\question}[2]{}
-% \fi%question-only-nospace
-
-% %・解答のみ
-% \newif\ifanswer-only
-% \if answer-only
-% \newcommand{\answer}[2]{}
-% \newcommand{\answer-annotation}[2]{}
-% \fi%answer-only
 \newcounter{Mode}
 \newcommand{\mode}[1]{\setcounter{Mode}{#1}}
-\newcommand{\ans}[1]{
+\mode{3}
+
+\newcommand{\ans}[1]{%
     \ifnum\theMode=1 
-    \definecolor{kaitouiro}{cmyk}{0, 1, 1, 0}
-    \textcolor{kaitouiro}{#1}
-    \else\fi}
-\mode{1}
+    \textcolor{red}{#1}
+    \fi
+    \ifnum\theMode=2 
+    \newbox\answ
+    \setbox\answ=\hbox{#1}
+    \kern\the\wd\answ
+    \fi
+    \ifnum\theMode=3
+    \textcolor{red}{#1}
+    \fi
+}
+
+
+
 \begin{document}
 \begin{enumerate}
     \item 次の計算をせよ。
     \begin{enumerate}
-        \item $1+1$
+        \item $1+1\ans{=2}$
         \item $2\times 4$
     \end{enumerate}
 \end{enumerate}
+
+人は，法の下に\ans{平等}である。
 \end{document}
