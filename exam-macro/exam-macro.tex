@@ -2,7 +2,7 @@
 \documentclass{jlreq}
 %パッケージ読みこみ
 \usepackage{amsmath}
-\usepackage{fancybox}
+\usepackage{fancybox,ascmac}
 \usepackage{xcolor}
 
 % 1. 問題+模範解答（部分点など）を表示（模範解答が一行で書けないものは，枠付き箱で囲って表示する。）
@@ -14,21 +14,36 @@
 
 \newcounter{Mode}
 \newcommand{\mode}[1]{\setcounter{Mode}{#1}}
-\mode{3}
+\mode{1}
 
 \newcommand{\ans}[1]{%
     \ifnum\theMode=1 
-    \textcolor{red}{#1}
+    \textcolor{red}{#1}%
     \fi
     \ifnum\theMode=2 
     \newbox\answ
     \setbox\answ=\hbox{#1}
-    \kern\the\wd\answ
+    \kern\the\wd\answ%
     \fi
     \ifnum\theMode=3
-    \textcolor{red}{#1}
     \fi
 }
+
+\newcommand{\kaisetu}[1]{%
+    \ifnum\theMode=1 
+    \begin{itembox}[l]{解答}
+        #1
+    \end{itembox}%
+    \fi
+    \ifnum\theMode=2
+    \begin{itembox}[l]{解答}
+        #1
+    \end{itembox}
+    \fi
+    \ifnum\theMode=3
+    \fi
+}
+
 
 
 
@@ -38,8 +53,13 @@
     \begin{enumerate}
         \item $1+1\ans{=2}$
         \item $2\times 4$
+        \kaisetu{
+            小学校二年生でならうよ。わかるかな。
+
+            \ans{8}
+        }
     \end{enumerate}
 \end{enumerate}
 
-人は，法の下に\ans{平等}である。
+人は，法の下に\fbox{\ans{平等}}である。
 \end{document}
