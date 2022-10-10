@@ -4,6 +4,8 @@
 \usepackage{amsmath}
 \usepackage{fancybox,ascmac}
 \usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable, skins, theorems}
 
 % 1. 問題+模範解答（部分点など）を表示（模範解答が一行で書けないものは，枠付き箱で囲って表示する。）
 % 2. 問題のみ（解答分のスペースを開ける）
@@ -11,34 +13,64 @@
 % 4. 解答のみ（教科書の巻末がイメージ，数値のみ）
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %マクロ定義開始
+\newsavebox{\fansbox}
+\newsavebox{\ansbox}
+\newsavebox{\kaisetubox}
+\newsavebox{\kaisetuboxtakasa}
+
+\newtcolorbox{kaisetubako}[1][]
+    {enhanced,
+    colframe = black,
+    colback = white,
+    title =解答,
+    breakable = true,
+    coltitle = black,
+    attach boxed title to top left = {xshift=5mm, yshift=-3mm}, 
+    boxed title style = {colframe = white, colback = white},
+    top = 4mm,
+    }
 
 \newcounter{Mode}
 \newcommand{\mode}[1]{\setcounter{Mode}{#1}}
-\mode{1}
+\mode{2}
 
 \newcommand{\ans}[1]{%
+    \sbox{\ansbox}{\textcolor{red}{#1}}
     \ifnum\theMode=1 
-    \textcolor{red}{#1}%
+    \usebox{\ansbox}
     \fi
     \ifnum\theMode=2 
-    \newbox\answ
-    \setbox\answ=\hbox{#1}
-    \kern\the\wd\answ%
+    \hspace{\wd\ansbox}%組版前の X 座標に一旦戻す
     \fi
     \ifnum\theMode=3
     \fi
 }
 
-\newcommand{\kaisetu}[1]{%
+\newcommand{\boxans}[1]{%
+    \sbox{\fansbox}{\textcolor{red}{#1}}
     \ifnum\theMode=1 
-    \begin{itembox}[l]{解答}
-        #1
-    \end{itembox}%
+    \fbox{\usebox{\fansbox}}
     \fi
     \ifnum\theMode=2
-    \begin{itembox}[l]{解答}
+    \framebox[\wd\fansbox][l]{\rule{0pt}{\ht\fansbox}}
+    \fi
+    \ifnum\theMode=3
+    \fi
+}
+
+
+\newcommand{\kaisetu}[1]{%
+    \sbox{\kaisetubox}{%
         #1
-    \end{itembox}
+    }
+    \ifnum\theMode=1 
+    \begin{kaisetubako}
+        \parindent=1\zw
+        \usebox{\kaisetubox}
+    \end{kaisetubako}
+    \fi
+    \ifnum\theMode=2
+    \vspace{\ht\kaisetubox}
     \fi
     \ifnum\theMode=3
     \fi
@@ -51,15 +83,11 @@
 \begin{enumerate}
     \item 次の計算をせよ。
     \begin{enumerate}
-        \item $1+1\ans{=2}$
+        \item $1+1=\ans{2}$
         \item $2\times 4$
-        \kaisetu{
-            小学校二年生でならうよ。わかるかな。
-
-            \ans{8}
-        }
+        \kaisetu{小学校二年生でならうよ。わかるかな。}
     \end{enumerate}
 \end{enumerate}
 
-人は，法の下に\fbox{\ans{平等}}である。
+人は，法の下に\boxans{平等}である。
 \end{document}
