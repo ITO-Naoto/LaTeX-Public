@@ -1,0 +1,49 @@
+\documentclass{jlreq}
+\makeatletter
+\def\InitialEmphFormat#1{\textbf{#1}}
+\DeclareRobustCommand*\InitialEmph[1]{%
+   \leavevmode
+   \begingroup
+   \let\@InitialEmph@temp\@empty
+   \@InitialEmph@preprocess#1\ \@nil\@nnil
+   \expandafter\@InitialEmph@split\@InitialEmph@temp\@nil\@nnil
+   \endgroup}
+\def\@InitialEmph@preprocess#1\ #2{%
+   \toks@\expandafter{\@InitialEmph@temp#1}%
+   \edef\@InitialEmph@temp{\the\toks@\space}%
+   \def\@tempa{#2}%
+   \ifx\@tempa\@nnil \expandafter\remove@to@nnil
+   \else             \expandafter\@InitialEmph@preprocess
+   \fi
+   #2}
+\def\@InitialEmph@split#1 #2{%
+   \@InitialEmph@do@emph{#1}%
+   \def\@tempa{#2}%
+   \ifx\@tempa\@nnil \expandafter\remove@to@nnil
+   \else             \space\expandafter\@InitialEmph@split
+   \fi
+   #2}
+\def\@InitialEmph@do@emph#1{\@InitialEmph@do@emph@#1\@empty\@empty}
+\def\@InitialEmph@do@emph@#1{%
+   \def\@Initial@emph@tempa{#1}%
+   \@tfor\@Initial@emph@tempb:=\=\^\~\'\`\"\H\d\c\k\t\.\do{%
+      \ifx\@Initial@emph@tempa\@Initial@emph@tempb
+         \let\@Initial@emph@tempa\@empty
+         \@break@tfor
+      \fi}%
+   \ifx\@Initial@emph@tempa\@empty \expandafter\@InitialEmph@do@emph@@
+   \else                           \InitialEmphFormat{#1}%
+   \fi}
+\def\@InitialEmph@do@emph@@#1{\InitialEmphFormat{\@Initial@emph@tempb{#1}}}
+\let\kasiramozi\InitialEmph
+\makeatother
+\begin{document}
+
+JSTは，\kasiramozi{Japan Standard Time}の頭文字をとったものです。
+
+\kasiramozi{Sustainable Development Goals Abcd}
+
+%%% 頭文字の強調表記のやり方は変更可能
+\def\InitialEmphFormat#1{\underline{#1}}
+JSTは，\kasiramozi{Japan Standard Time}の頭文字をとったものです。
+\end{document}
